@@ -1,5 +1,3 @@
-<%@ page import="com.farmtrak.Produce" %>
-<%@ page import="java.util.List" %>
 <html>
 <head>
     <title>Produce List</title>
