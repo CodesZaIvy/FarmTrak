@@ -1,5 +1,6 @@
 package com.farmtrak.servlets;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -7,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.farmtrak.model.Harvest;
 
 import java.io.IOException;
+
+@WebServlet("/FarmController")
 
 public class FarmController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
