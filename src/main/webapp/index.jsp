@@ -58,7 +58,7 @@
 </head>
 <body>
     <form action="HarvestController" method="post">
-        <h2>Harvest Tracking</h2>
+        <h2>Harvest Track</h2>
 
         <label for="produceQuantities">Produce Quantities:</label>
         <input type="text" name="produceQuantities">
