@@ -17,7 +17,7 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        // Add your login logic here// Hardcoded credentials for demonstration
+        // Hardcoded credentials for demonstration
         String validEmail = "mkulima@example.com";
         String validPassword = "pass123";
 
