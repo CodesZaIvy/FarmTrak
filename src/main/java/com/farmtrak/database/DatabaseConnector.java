@@ -6,11 +6,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.impl.Log4jApiLogFactory;
+
 public class DatabaseConnector {
 
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/your_database";
-    private static final String DB_USER = "Ivy_MySQL";
-    private static final String DB_PASSWORD = "SUN123,kwamboka";
+    private static final Log logger = Log4jApiLogFactory.getLog(DatabaseConnector.class);
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/mysql";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "SUN123,mysql";
+
+    static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            logger.error("MySQL JDBC Driver not found", e);
+            throw new RuntimeException("MySQL JDBC Driver not found", e);
+        }
+    }
 
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASSWORD);
@@ -22,7 +35,7 @@ public class DatabaseConnector {
                 connection.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error closing connection", e);
         }
     }
 
@@ -32,7 +45,7 @@ public class DatabaseConnector {
                 resultSet.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error closing ResultSet", e);
         }
     }
 
@@ -42,39 +55,30 @@ public class DatabaseConnector {
                 preparedStatement.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error closing PreparedStatement", e);
         }
     }
 
     // Example method to retrieve user information from the database
     public static void getUserInfo(String username) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE username=root")) {
 
-        try {
-            connection = getConnection();
-            String query = "SELECT * FROM users WHERE username=?";
-            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, username);
-            resultSet = preparedStatement.executeQuery();
 
-            // Process the result set as needed
-            while (resultSet.next()) {
-                int userId = resultSet.getInt("id");
-                String userName = resultSet.getString("username");
-                String password = resultSet.getString("password");
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                // Process the result set as needed
+                while (resultSet.next()) {
+                    int userId = resultSet.getInt("id");
+                    String userName = resultSet.getString("username");
+                    String password = resultSet.getString("password");
 
-                // Do something with the retrieved data
-                System.out.println("User ID: " + userId + ", Username: " + userName + ", Password: " + password);
+                    // Do something with the retrieved data
+                    System.out.println("User ID: " + userId + ", Username: " + userName + ", Password: " + password);
+                }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeResultSet(resultSet);
-            closePreparedStatement(preparedStatement);
-            closeConnection(connection);
+            logger.error("Error retrieving user information", e);
         }
     }
 }
-

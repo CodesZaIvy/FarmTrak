@@ -24,7 +24,7 @@ public class FarmController extends HttpServlet {
 
         Harvest.saveToDatabase();
 
-        response.sendRedirect("harvest.jsp"); // Redirect to the next step
+        response.sendRedirect("farmer.jsp"); // Redirect to the next step
     }
 }
 

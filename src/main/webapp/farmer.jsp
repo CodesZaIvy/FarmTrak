@@ -59,7 +59,7 @@
 
 <body>
     <form action="src/main/java/com/farmtrak/servlet/FarmController" method="post">
-        <h2>Farm and Farmer Details</h2>
+        <h2>Farm Details</h2>
         <label for="farmerName">Name:</label>
         <input type="text" name="farmerName">
 
