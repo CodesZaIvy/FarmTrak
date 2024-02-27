@@ -24,16 +24,21 @@ public class LoginServlet extends HttpServlet {
         // Check if the provided credentials are valid
         if (email.equals(validEmail) && password.equals(validPassword)) {
             // Successful login
+            // For simplicity, let's just print the values for demonstration
+            System.out.println("Login Successful!");
+            System.out.println("Email: " + email);
+            System.out.println("Password: " + password);
+
             response.sendRedirect("success.jsp");
         } else {
             // Invalid credentials, redirect back to the login page with an error message
-            response.sendRedirect("index.jsp?error=true");
-        // For simplicity, let's just print the values for demonstration
-        System.out.println("Email: " + email);
-        System.out.println("Password: " + password);
+            // For simplicity, let's just print the values for demonstration
+            System.out.println("Login Failed. Invalid credentials.");
+            System.out.println("Email: " + email);
+            System.out.println("Password: " + password);
 
-        // Redirect to a success page or handle the login logic accordingly
-        response.sendRedirect("success.jsp");
+            response.sendRedirect("index.jsp?error=true");
+        }
     }
 }
-}
+

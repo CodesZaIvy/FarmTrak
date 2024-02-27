@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <!-- Your head content here -->
+    
     <title>Login Success</title>
     <style>
         body {
