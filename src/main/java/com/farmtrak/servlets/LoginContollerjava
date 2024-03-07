@@ -1,0 +1,53 @@
+package com.ivy.art.servlet;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet("/login")
+public class LoginController extends HttpServlet {
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Get usinput from the login form
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+
+        // Validate the user
+        if (validateUser(email, password)) {
+            // Set a session attribute to indicate the user is authenticated
+            request.getSession().setAttribute("authenticatedUser", email);
+
+            // Redirect to the home page or some other page
+            response.sendRedirect(request.getContextPath() + "/navigation.jsp");
+        } else {
+            // User is not authenticated, forward to the login page with an error message
+            request.setAttribute("errorMessage", "Invalid email or password");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+        }
+    }
+
+    private boolean validateUser(String email, String password) {
+        // Your user validation logic here
+        // For simplicity, use hardcoded values (replace with your actual validation logic)
+
+        if ("Artist1@example.com".equals(email) && validatePassword(password)) {
+            return true; // Artist user
+        } else if ("Buyer1@example.com".equals(email) && validatePassword(password)) {
+            return true; // Buyer user
+        } else if ("Admin1@example.com".equals(email) && validatePassword(password)) {
+            return true; // Admin user
+        }
+
+        return false; // User not found or invalid credentials
+    }
+
+    private boolean validatePassword(String enteredPassword) {
+        // Your password validation logic here (compare enteredPassword with storedHashedPassword)
+        // For simplicity, this example uses a hardcoded hashed and salted password
+        String storedHashedPassword = "Pass123";
+        return enteredPassword.equals(storedHashedPassword);
+    }
+}

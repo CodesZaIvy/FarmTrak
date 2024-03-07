@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.farmtrak.model.Produce;
+import com.mysql.cj.xdevapi.Client;
 
 
 @WebServlet("/produce")
@@ -63,6 +64,31 @@ public class ProduceServlet extends HttpServlet  {
             e.printStackTrace(); // Log or handle appropriately
             response.sendRedirect(request.getContextPath() + "/error.jsp");
         }
+    }
+
+    public List<Produce> getProduce() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getProduce'");
+    }
+
+    public List<Farm> getFarms() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getFarms'");
+    }
+
+    public String getFarmerName(Produce produce) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getFarmerName'");
+    }
+
+    public String getClient(Client client) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getClient'");
+}
+
+    public String getFarmerName(Farm farm) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getFarmerName'");
     }
 }
 

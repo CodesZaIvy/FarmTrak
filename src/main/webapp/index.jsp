@@ -1,180 +1,125 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Login</title>
+    <title>FarmTrak</title>
     <style>
         body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #298043;
-        }
-
-        .form-container {
-            width: 350px;
-            background-color: #fff;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
-            border-radius: 10px;
-            box-sizing: border-box;
-            padding: 20px 30px;
-        }
-
-        .title {
+            
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
             text-align: center;
-            font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva,
-                Verdana, sans-serif;
-            margin: 10px 0 30px 0;
-            font-size: 28px;
-            font-weight: 800;
-            color: teal;
+            font-family: Arial, sans-serif;
         }
 
-        .form {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            margin-bottom: 15px;
+        h2 {
+            color: #DB1F48;
+            font-family: 'Courier New', monospace;
+            font-size: 3em;
+            font-weight: bold;
+            margin-top: 50px;
         }
 
-        .input {
-            border-radius: 20px;
-            border: 1px solid #c0c0c0;
-            outline: 0 !important;
-            box-sizing: border-box;
-            padding: 12px 15px;
-        }
-
-        .page-link {
-            text-decoration: underline;
-            margin: 0;
-            text-align: end;
-            color: #747474;
-            text-decoration-color: #747474;
-        }
-
-        .page-link-label {
-            cursor: pointer;
-            font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva,
-                Verdana, sans-serif;
-            font-size: 9px;
-            font-weight: 700;
-        }
-
-        .page-link-label:hover {
-            color: teal;
-        }
-
-        .form-btn {
-            padding: 10px 15px;
-            font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva,
-                Verdana, sans-serif;
-            border-radius: 20px;
-            border: 0 !important;
-            outline: 0 !important;
-            background: teal;
-            color: white;
-            cursor: pointer;
-            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-        }
-
-        .form-btn:active {
-            box-shadow: none;
-        }
-
-        .sign-up-label {
-            margin: 0;
-            font-size: 10px;
-            color: #747474;
-            font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva,
-                Verdana, sans-serif;
-        }
-
-        .sign-up-link {
-            margin-left: 1px;
-            font-size: 11px;
-            text-decoration: underline;
-            text-decoration-color: teal;
-            color: teal;
-            cursor: pointer;
-            font-weight: 800;
-            font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva,
-                Verdana, sans-serif;
-        }
-
-        .buttons-container {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            margin-top: 20px;
-            gap: 15px;
-        }
-
-        .apple-login-button,
-        .google-login-button {
-            border-radius: 20px;
-            box-sizing: border-box;
-            padding: 10px 15px;
-            box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-            cursor: pointer;
+        #form-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva,
-                Verdana, sans-serif;
-            font-size: 11px;
-            gap: 5px;
+            width: 600px;
+            margin: 0 auto;
+            background-color: #72231c;
+            padding: 30px;
+            border-radius: 50px;
+            margin-top: 100px;
         }
 
-        .apple-login-button {
-            background-color: #000;
-            color: #fff;
-            border: 2px solid #000;
+        #form-container input[type="text"],
+        #form-container input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            background-color: #e1bc39;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
 
-        .google-login-button {
-            border: 2px solid #747474;
+        #form-container input[type="submit"],
+        #form-container input[type="button"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
-        .apple-icon,
-        .google-icon {
-            font-size: 18px;
-            margin-bottom: 1px;
+        #form-container input[type="submit"] {
+            background-color: #a7a5a5;
+            color: white;
+        }
+
+        #form-container input[type="button"] {
+            background-color: #202242;
+            color: white;
         }
     </style>
 </head>
+<body bgcolor="#346a8f">
 
-<body>
-    <div class="form-container">
-        <div class="title">Login</div>
-        <form class="form">
-            <div>
-                <label class="page-link-label">Email:</label>
-                <input type="email" class="input" placeholder="Enter your email">
-            </div>
-            <div>
-                <label class="page-link-label">Password:</label>
-                <input type="password" class="input" placeholder="Enter your password">
-            </div>
-            <button type="submit" class="form-btn">Login</button>
+    <h2>Welcome To FarmTrak</h2>
+
+    <div id="form-container">
+        <form method="POST" action="navigation.jsp">
+            User Type:
+            <select id="userType" name="userType">
+                <option value="buyer">Buyer</option>
+                <option value="artist">Artist</option>
+                <option value="admin">Admin</option>
+            </select><br>
+
+            Username: <input type="text" id="username" name="username" /><br>
+            Password: <input type="password" id="myInput" name="password" /><br><br>
+            <input type="checkbox" onclick="myFunction()">Show Password
+            <input type="button" value="Login" />
+            <input type="button" value="Register" onclick="window.location.href='register.jsp'" />
         </form>
-        <div class="buttons-container">
-            <button class="google-login-button">
-                <span class="google-icon">G</span> Login with Google
-            </button>
-            <button class="apple-login-button">
-                <span class="apple-icon"></span> Login with Apple
-            </button>
-            <p class="sign-up-label">Don't have an account?</p>
-            <a href="#" class="sign-up-link">Sign Up</a>
-        </div>
     </div>
-</body>
 
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myInput");
+            x.type === "password" ? x.type = "text" : x.type = "password";
+           }
+           function redirectToNavigation() {
+               // Replace the following lines with your actual login logic
+               var userType = document.getElementById("userType").value;
+               var username = document.getElementById("username").value;
+               var password = document.getElementById("myInput").value;
+
+               // Perform authentication (this is a basic example, replace it with your actual authentication logic)
+               if (userType === "buyer" && username === "buyer1@example.com" && password === "buyer123") {
+                   // If login is successful for a buyer, redirect to navigation.jsp
+                   window.location.href = 'navigation.jsp';
+                   return true; // Allow form submission
+               } else if (userType === "artist" && username === "artist1@example.com" && password === "artist123") {
+                   // If login is successful for an artist, redirect to artistDashboard.jsp (replace with the actual artist page)
+                   window.location.href = 'artistDashboard.jsp';
+                   return true; // Allow form submission
+               } else if (userType === "admin" && username === "admin1@example.com" && password === "admin123") {
+                   // If login is successful for an admin, redirect to adminDashboard.jsp (replace with the actual admin page)
+                   window.location.href = 'adminDashboard.jsp';
+                   return true; // Allow form submission
+               } else {
+                   // If login fails, display an error message (you can customize this part)
+                   alert("Invalid credentials. Please try again.");
+                   return false; // Prevent form submission
+               }
+           }
+
+           
+    </script>
+</body>
 </html>
+
