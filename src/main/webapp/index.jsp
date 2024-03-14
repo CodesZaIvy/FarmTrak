@@ -7,7 +7,7 @@
     <title>FarmTrak</title>
     <style>
         body {
-            background-color: #346a8f;
+            background-color: #aca6a4;
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
