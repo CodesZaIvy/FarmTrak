@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +7,7 @@
     <title>FarmTrak</title>
     <style>
         body {
-            
+            background-color: #346a8f;
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -66,23 +66,23 @@
         }
     </style>
 </head>
-<body bgcolor="#346a8f">
+<body>
 
     <h2>Welcome To FarmTrak</h2>
 
     <div id="form-container">
-        <form method="POST" action="navigation.jsp">
+        <form method="post" action="navigation.jsp" onsubmit="return redirectToNavigation();">
             User Type:
             <select id="userType" name="userType">
                 <option value="buyer">Buyer</option>
-                <option value="artist">Artist</option>
+                <option value="farmer">Farmre</option>
                 <option value="admin">Admin</option>
             </select><br>
 
-            Username: <input type="text" id="username" name="username" /><br>
-            Password: <input type="password" id="myInput" name="password" /><br><br>
+            Username: <input type="text" id="username" name="username" required /><br>
+            Password: <input type="password" id="myInput" name="password" required /><br><br>
             <input type="checkbox" onclick="myFunction()">Show Password
-            <input type="button" value="Login" />
+            <input type="submit" value="Login" />
             <input type="button" value="Register" onclick="window.location.href='register.jsp'" />
         </form>
     </div>
@@ -91,35 +91,27 @@
         function myFunction() {
             var x = document.getElementById("myInput");
             x.type === "password" ? x.type = "text" : x.type = "password";
-           }
-           function redirectToNavigation() {
-               // Replace the following lines with your actual login logic
-               var userType = document.getElementById("userType").value;
-               var username = document.getElementById("username").value;
-               var password = document.getElementById("myInput").value;
+        }
 
-               // Perform authentication (this is a basic example, replace it with your actual authentication logic)
-               if (userType === "buyer" && username === "buyer1@example.com" && password === "buyer123") {
-                   // If login is successful for a buyer, redirect to navigation.jsp
-                   window.location.href = 'navigation.jsp';
-                   return true; // Allow form submission
-               } else if (userType === "artist" && username === "artist1@example.com" && password === "artist123") {
-                   // If login is successful for an artist, redirect to artistDashboard.jsp (replace with the actual artist page)
-                   window.location.href = 'artistDashboard.jsp';
-                   return true; // Allow form submission
-               } else if (userType === "admin" && username === "admin1@example.com" && password === "admin123") {
-                   // If login is successful for an admin, redirect to adminDashboard.jsp (replace with the actual admin page)
-                   window.location.href = 'adminDashboard.jsp';
-                   return true; // Allow form submission
-               } else {
-                   // If login fails, display an error message (you can customize this part)
-                   alert("Invalid credentials. Please try again.");
-                   return false; // Prevent form submission
-               }
-           }
+        function redirectToNavigation() {
+            var userType = document.getElementById("userType").value;
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("myInput").value;
 
-           
+            if (userType === "buyer" && username === "buyer1@example.com" && password === "buyer123") {
+                window.location.href = 'navigation.jsp';
+                return true;
+            } else if (userType === "farmer" && username === "farmer1@example.com" && password === "farmer123") {
+                window.location.href = 'farmerDashboard.jsp';
+                return true;
+            } else if (userType === "admin" && username === "admin1@example.com" && password === "admin123") {
+                window.location.href = 'adminDashboard.jsp';
+                return true;
+            } else {
+                alert("Invalid credentials. Please try again.");
+                return false;
+            }
+        }
     </script>
 </body>
 </html>
-
