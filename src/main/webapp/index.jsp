@@ -75,7 +75,7 @@
             User Type:
             <select id="userType" name="userType">
                 <option value="buyer">Buyer</option>
-                <option value="farmer">Farmre</option>
+                <option value="farmer">Farmer</option>
                 <option value="admin">Admin</option>
             </select><br>
 
