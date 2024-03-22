@@ -1,4 +1,3 @@
-<%@ page isELIgnored="false" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,22 +7,19 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-image: url("images/Background7.jpg");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: flex;
+            background-color: #f0f9e8; /* Light green background */
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            position: relative; /* Added for positioning the logo */
         }
 
-        #logo {
-            width: 80px;
-            height: auto;
+        #logo img {
+            width: 100px; /* Adjust this value as needed */
+            height: auto; /* This will maintain the aspect ratio */
             position: absolute;
             top: 20px;
             left: 20px;
@@ -31,7 +27,7 @@
         }
 
         #form-container {
-            background-color: rgba(114, 35, 28, 0.8); /* Reddish with opacity */
+            background-color: rgba(53, 139, 78, 0.8); /* Greenish with opacity */
             padding: 30px;
             border-radius: 20px;
             width: 50%; /* Adjusted width */
@@ -59,8 +55,7 @@
             margin-top: 5px;
         }
 
-        #form-container input[type="submit"],
-        #form-container input[type="button"] {
+        #form-container button {
             width: 100%;
             padding: 10px;
             margin: 8px 0;
@@ -68,14 +63,7 @@
             border-radius: 5px;
             cursor: pointer;
             color: white;
-        }
-
-        #form-container input[type="submit"] {
-            background-color: #a7a5a5; /* Greyish */
-        }
-
-        #form-container input[type="button"] {
-            background-color: #202242; /* Bluish */
+            background-color: #357b4e; /* Dark green button */
         }
 
         #form-container a {
@@ -87,7 +75,7 @@
 <body>
 
 <div id="logo">
-    <img src="images/Logo.png" alt="Your Logo">
+    <img src="images/Logo.png" alt="Logo">
 </div>
 
 <div id="form-container">
@@ -122,6 +110,8 @@
         }
         </script>
 
-        </form>
+    </form>
+</div>
+
 </body>
 </html>

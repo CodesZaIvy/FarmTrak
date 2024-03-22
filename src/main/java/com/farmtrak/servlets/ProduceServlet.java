@@ -1,94 +1,155 @@
 package com.farmtrak.servlets;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.farmtrak.model.Produce;
-import com.mysql.cj.xdevapi.Client;
+public class ProduceServlet extends HttpServlet {
 
+    // This map holds the produce items available for sale
+    private Map<String, Produce> produceItems;
 
-@WebServlet("/produce")
-public class ProduceServlet extends HttpServlet  {
-    private static final long serialVersionUID = 1L;
-    private final List<Produce> produceList = new ArrayList<>();
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    // This map holds the user's shopping cart
+    private Map<String, Integer> shoppingCart;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Retrieve produce data
-        request.setAttribute("produceList", produceList);
+    // Initialize produce items and shopping cart
+    public void init() {
+        produceItems = new HashMap<>();
+        shoppingCart = new HashMap<>();
 
-        // Forward the request to the produce.jsp page for display
-        request.getRequestDispatcher("/produce.jsp").forward(request, response);
+        // Populate produce items
+        produceItems.put("Onions", new Produce("Onions", 100, 250, "Organic"));
+        produceItems.put("Cabbages", new Produce("Cabbages", 50, 300, "Non-GMO"));
+        // Add more produce items here...
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Handle add produce request
-        String name = request.getParameter("name");
-        String quantityStr = request.getParameter("quantity");
-        String harvestDateStr = request.getParameter("harvestDate");
-
-        // Validation and conversion
-        double quantity = 0.0;
-        Date harvestDate = null;
-
-        try {
-            quantity = Double.parseDouble(quantityStr);
-            harvestDate = dateFormat.parse(harvestDateStr);
-
-            // Create a new produce entry
-            Produce newProduce = new Produce();
-            newProduce.setName(name);
-            newProduce.setQuantity(quantity);
-            newProduce.setHarvestDate(harvestDate);
-
-            // Add the new produce entry to the list
-            synchronized (produceList) {
-                produceList.add(newProduce);
+    // GET request handler
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        
+        if (action != null) {
+            switch (action) {
+                case "addToCart":
+                    addToCart(request, response);
+                    break;
+                case "viewCart":
+                    viewCart(request, response);
+                    break;
+                case "placeOrder":
+                    placeOrder(request, response);
+                    break;
+                default:
+                    // Handle other actions or invalid actions
+                    break;
             }
-
-            // Redirect to the produce page to display the updated list
-            response.sendRedirect(request.getContextPath() + "/produce");
-        } catch (NumberFormatException | ParseException e) {
-            // Log the exception or provide a user-friendly error message
-            e.printStackTrace(); // Log or handle appropriately
-            response.sendRedirect(request.getContextPath() + "/error.jsp");
+        } else {
+            // Display produce items for sale
+            displayProduceItems(request, response);
         }
     }
 
-    public List<Produce> getProduce() {
-        // TODO Auto-generated method stub
+    // Display produce items for sale
+    private void displayProduceItems(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("produceItems", produceItems.values());
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/farmerDashboard.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    // Add item to the cart
+    private void addToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String itemName = request.getParameter("itemName");
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+
+        shoppingCart.put(itemName, quantity);
+
+        // Redirect to the produce items page
+        response.sendRedirect(request.getContextPath() + "/produce");
+    }
+
+    // View shopping cart
+    private void viewCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("shoppingCart", shoppingCart);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/cart.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    // Place order
+    private void placeOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Handle order placement logic here
+    }
+
+    public List<com.farmtrak.model.Produce> getProduce() {
+         
         throw new UnsupportedOperationException("Unimplemented method 'getProduce'");
     }
 
-    public List<Farm> getFarms() {
-        // TODO Auto-generated method stub
+    public String getFarmerName(com.farmtrak.model.Produce produce) {
+         
+        throw new UnsupportedOperationException("Unimplemented method 'getFarmerName'");
+    }
+
+     public List<Farm> getFarms() {
+         
         throw new UnsupportedOperationException("Unimplemented method 'getFarms'");
     }
 
-    public String getFarmerName(Produce produce) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFarmerName'");
-    }
-
-    public String getClient(Client client) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getClient'");
-}
-
-    public String getFarmerName(Farm farm) {
-        // TODO Auto-generated method stub
+      public String getFarmerName(Farm farm) {
+         
         throw new UnsupportedOperationException("Unimplemented method 'getFarmerName'");
     }
 }
 
+// Class representing a produce item
+class Produce {
+    private String name;
+    private int quantity;
+    private double price;
+    private String certification;
+
+    public Produce(String name, int quantity, double price, String certification) {
+        this.name = name;
+        this.quantity = quantity;
+        this.price = price;
+        this.certification = certification;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getCertification() {
+        return certification;
+    }
+
+    public void setCertification(String certification) {
+        this.certification = certification;
+    }
+
+    
+}
