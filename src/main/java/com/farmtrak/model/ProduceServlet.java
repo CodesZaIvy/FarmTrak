@@ -1,4 +1,4 @@
-package com.farmtrak.servlets;
+package com.farmtrak.model;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +9,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.farmtrak.servlets.Farm;
+
+
 
 public class ProduceServlet extends HttpServlet {
 
@@ -103,10 +107,10 @@ public class ProduceServlet extends HttpServlet {
          
         throw new UnsupportedOperationException("Unimplemented method 'getFarmerName'");
     }
-}
+
 
 // Class representing a produce item
-class Produce {
+public class Produce {
     private String name;
     private int quantity;
     private double price;
@@ -151,5 +155,5 @@ class Produce {
         this.certification = certification;
     }
 
-    
+} 
 }

@@ -87,6 +87,7 @@
     <a href="produceListing.jsp">Produce</a>
     <a href="whoarewe.jsp">About</a>
     <a href="adminDashboard.jsp">Admin</a>
+    <a href="cart.jsp">My_Cart</a>
     <a href="#contact">Contact</a>
     <a href="#survey">Survey</a>
     <a href="#faq" class="split">FAQ</a>
