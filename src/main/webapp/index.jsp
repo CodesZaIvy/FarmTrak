@@ -124,7 +124,8 @@
 <body>
 
     <div id="logo">
-    <img src="images/Logo.png" alt="Logo">
+    <a href="whoarewe.jsp" class="logo">
+    <img src="images/Logo.png" alt="Logo"></a>
     </div>
 
 <h2>Welcome To FarmTrak</h2>
