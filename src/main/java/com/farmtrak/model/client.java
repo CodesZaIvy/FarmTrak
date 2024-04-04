@@ -1,6 +1,4 @@
-package com.farmtrak.servlets;
-
-import com.farmtrak.model.Produce;
+package com.farmtrak.model;
 
 public class client {
 
@@ -8,5 +6,12 @@ public class client {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'put'");
     }
+
+    @Override
+    public String toString() {
+        return "client []";
+    }
+
+
 
 }

@@ -1,4 +1,4 @@
-package com.farmtrak.database;
+package com.farmtrak.repository;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

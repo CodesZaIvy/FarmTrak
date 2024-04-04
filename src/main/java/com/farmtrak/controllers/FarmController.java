@@ -1,17 +1,15 @@
-package com.farmtrak.servlets;
+package com.farmtrak.controllers;
+
+import java.io.IOException;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.farmtrak.model.Harvest;
-
-import java.io.IOException;
-
 @WebServlet("/FarmController")
-
 public class FarmController extends HttpServlet {
+    @SuppressWarnings("unused")
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String farmLocation = request.getParameter("farmLocation");
         String cropType = request.getParameter("cropType");
@@ -20,11 +18,8 @@ public class FarmController extends HttpServlet {
         String planningDate = request.getParameter("planningDate");
         String cultivationMethods = request.getParameter("cultivationMethods");
 
-        // Save data to a database or perform necessary actions
-
-        Harvest.saveToDatabase();
+        com.farmtrak.model.Harvest.saveToDatabase();
 
         response.sendRedirect("farmer.jsp"); // Redirect to the next step
     }
 }
-

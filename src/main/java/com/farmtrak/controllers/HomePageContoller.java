@@ -1,4 +1,4 @@
-package com.farmtrak.model;
+package com.farmtrak.controllers;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -12,17 +12,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.farmtrak.servlets.Farm;
-import com.farmtrak.servlets.FarmController;
-import com.farmtrak.servlets.HarvestController;
-import com.farmtrak.servlets.client;
+import com.farmtrak.model.Farm;
+import com.farmtrak.model.Produce;
+import com.farmtrak.model.client;
+import com.farmtrak.repository.ProduceServlet;
 
 @WebServlet(value = {"/", "/homepage"})
 public class HomePageContoller extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    @SuppressWarnings("unused")
     private FarmController farmController;
     private ProduceServlet produceServlet;
+    @SuppressWarnings("unused")
     private HarvestController harvestController;
 
     private String featured;

@@ -31,7 +31,6 @@ body {
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
-  
 }
 
 h1{
@@ -39,9 +38,7 @@ h1{
   margin-top: 10px;
   color: #abbebf;
   text-align: center;
-
 }
-
 
 .card:hover {
   transform: translateY(-5px);
@@ -73,11 +70,32 @@ h1{
   font-weight: bold;
 }
 
+.cart-container {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.cart-item {
+  margin-bottom: 10px;
+}
+
+.cart-item button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #405f32;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 </style>
 </head>
 <body>
 
-  <h1>Available Produce Week</h1>
+<h1>Available Produce Week</h1>
 
 <div class="grid-container">
   
@@ -88,7 +106,7 @@ h1{
       <p>Quantity: 100 kg</p>
       <p class="price">Price: Kshs.250/kg</p>
       <p>Certification: Organic</p>
-      <p></p>
+      <button onclick="addToCart('Onions', 250)">Add to Cart</button>
     </div>
   </div>
 
@@ -99,26 +117,7 @@ h1{
       <p>Quantity: 50 kg</p>
       <p class="price">Price: Kshs.300/kg</p>
       <p>Certification: Non-GMO</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <img src="images/Carrots.jpg" alt="Carrots">
-    <div class="card-content">
-      <h2>Carrots</h2>
-      <p>Quantity: 80 kg</p>
-      <p class="price">Price: Kshs.250/kg</p>
-      <p>Certification: Organic</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <img src="images/Potatoes.jpg" alt="Potatoes">
-    <div class="card-content">
-      <h2>Potatoes</h2>
-      <p>Quantity: 100 kg</p>
-      <p class="price">Price: Kshs.100/kg</p>
-      <p>Certification: Organic</p>
+      <button onclick="addToCart('Cabbages', 300)">Add to Cart</button>
     </div>
   </div>
 
@@ -129,6 +128,7 @@ h1{
       <p>Quantity: 120 kg</p>
       <p class="price">Price: Kshs.250/kg</p>
       <p>Certification: Non-GMO</p>
+      <button onclick="addToCart('Tomatoes', 250)">Add to Cart</button>
     </div>
   </div>
 
@@ -139,9 +139,51 @@ h1{
       <p>Quantity: 200 kg</p>
       <p class="price">Price: Kshs.270/kg</p>
       <p>Certification: Conventional</p>
+      <button onclick="addToCart('Sweet Potatoes', 270)">Add to Cart</button>
     </div>
   </div>
 </div>
+
+</div>
+
+
+<div class="cart-container">
+  <h2>Shopping Cart</h2>
+  <div id="cartItems"></div>
+</div>
+
+<script>
+  const cartItemsDiv = document.getElementById('cartItems');
+  let cart = [];
+
+    function addToCart(item, price) {
+    // Get the existing cart items from session storage or initialize an empty array
+    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    // Add the new item to the cart
+    cart.push({ item, price });
+    // Store the updated cart back to session storage
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+  }
+
+  function updateCart() {
+    cartItemsDiv.innerHTML = '';
+    cart.forEach((item, index) => {
+      const cartItemDiv = document.createElement('div');
+      cartItemDiv.classList.add('cart-item');
+      cartItemDiv.innerHTML = `${item.item} - Kshs.${item.price}/kg <button onclick="removeFromCart(${index})">Remove</button>`;
+      cartItemsDiv.appendChild(cartItemDiv);
+    });
+  }
+
+  function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
+  }
+
+
+
+
+</script>
 
 </body>
 </html>

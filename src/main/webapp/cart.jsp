@@ -28,7 +28,7 @@
         
         /* Apply clearfix in a few places */
         .shopping-cart, .column-labels, .product, .totals-item {
-            @extend .group;
+            overflow: hidden;
         }
         
         /* Apply dollar signs */
@@ -159,7 +159,7 @@
 
 <h1>Shopping Cart</h1>
 
-<div class="shopping-cart">
+<div class="shopping-cart" id="cartItems">
 
     <div class="column-labels">
         <label class="product-image">Image</label>
@@ -170,68 +170,28 @@
         <label class="product-line-price">Total</label>
     </div>
 
-    <div class="product">
-        <div class="product-image">
-            <img src="images/Potatoes.jpg" alt="Potatoes">
-        </div>
-        <div class="product-details">
-            <div class="product-title">GMO Potatoes</div>
-            <p class="product-description">The best  potatoes you can find in Limuru ,The farmer plants different species. I made meat stew with them the other day and I loved them. I'm a fan.</p>
-        </div>
-        <div class="product-price"> 120/Kg </div>
-        <div class="product-quantity">
-            <input type="number" value="2" min="1">
-        </div>
-        <div class="product-removal">
-            <button class="remove-product">
-                Remove
-            </button>
-        </div>
-        <div class="product-line-price">120</div>
-    </div>
-
-    <div class="product">
-        <div class="product-image">
-            <img src="images/Tomatoes.jpg" alt="Tomatoes">
-        </div>
-        <div class="product-details">
-            <div class="product-title">Tomatoes </div>
-            <p class="product-description">Healthy Organic Tomatoes from a farmer who plants seasonally plants them in Kerio Valley ,Kenya </p>
-        </div>
-        <div class="product-price"> 450/Kg </div>
-        <div class="product-quantity">
-            <input type="number" value="1" min="1">
-        </div>
-        <div class="product-removal">
-            <button class="remove-product">
-                Remove
-            </button>
-        </div>
-        <div class="product-line-price">450</div>
-    </div>
-
-    <div class="totals">
-        <div class="totals-item">
-            <label>Subtotal</label>
-            <div class="totals-value" id="cart-subtotal">71.97</div>
-        </div>
-        <div class="totals-item">
-            <label>Tax (5%)</label>
-            <div class="totals-value" id="cart-tax">3.60</div>
-        </div>
-        <div class="totals-item">
-            <label>Shipping</label>
-            <div class="totals-value" id="cart-shipping">150/km</div>
-        </div>
-        <div class="totals-item totals-item-total">
-            <label>Grand Total</label>
-            <div class="totals-value" id="cart-total">570</div>
-        </div>
-    </div>
-
-    <a href="checkout.jsp" class="checkout">Checkout</a>
-
 </div>
+
+<div class="totals">
+    <div class="totals-item">
+        <label>Subtotal</label>
+        <div class="totals-value" id="cart-subtotal">0.00</div>
+    </div>
+    <div class="totals-item">
+        <label>Tax (5%)</label>
+        <div class="totals-value" id="cart-tax">0.00</div>
+    </div>
+    <div class="totals-item">
+        <label>Shipping</label>
+        <div class="totals-value" id="cart-shipping">0.00</div>
+    </div>
+    <div class="totals-item totals-item-total">
+        <label>Grand Total</label>
+        <div class="totals-value" id="cart-total">0.00</div>
+    </div>
+</div>
+
+<a href="checkout.jsp" class="checkout">Checkout</a>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -240,15 +200,37 @@
         var shippingRate = 15.00;
         var fadeTime = 300;
 
-        $('.product-quantity input').change(function() {
-            updateQuantity(this);
-        });
+        // Function to generate HTML for cart items
+        function generateCartItems(cart) {
+            var cartItemsHtml = '';
+            cart.forEach(function(item) {
+                cartItemsHtml += '<div class="product">';
+                cartItemsHtml += '<div class="product-details">';
+                cartItemsHtml += '<div class="product-title">' + item.item + '</div>';
+                cartItemsHtml += '</div>';
+                cartItemsHtml += '<div class="product-price">Kshs.' + item.price + '/kg</div>';
+                cartItemsHtml += '<div class="product-quantity">';
+                cartItemsHtml += '<input type="number" value="1" min="1">';
+                cartItemsHtml += '</div>';
+                cartItemsHtml += '<div class="product-removal">';
+                cartItemsHtml += '<button class="remove-product">Remove</button>';
+                cartItemsHtml += '</div>';
+                cartItemsHtml += '<div class="product-line-price">' + item.price + '</div>';
+                cartItemsHtml += '</div>';
+            });
+            return cartItemsHtml;
+        }
 
-        $('.remove-product button').click(function() {
-            removeItem(this);
-        });
-
+        // Function to recalculate cart totals
         function recalculateCart() {
+            // Retrieve cart items from session storage
+            var cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            // Generate HTML for cart items
+            var cartItemsHtml = generateCartItems(cart);
+            // Update cart items HTML
+            $('#cartItems').html(cartItemsHtml);
+            // Your existing recalculateCart logic
+            
             var subtotal = 0;
             $('.product').each(function() {
                 subtotal += parseFloat($(this).children('.product-line-price').text());
@@ -291,6 +273,7 @@
                 recalculateCart();
             });
         }
+    
     });
 </script>
 

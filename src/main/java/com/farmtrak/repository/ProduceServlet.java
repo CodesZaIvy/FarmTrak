@@ -1,4 +1,4 @@
-package com.farmtrak.model;
+package com.farmtrak.repository;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.farmtrak.servlets.Farm;
+import com.farmtrak.model.Farm;
 
 
 
