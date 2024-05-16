@@ -157,10 +157,7 @@
 </head>
 <body>
 
-<h1>Shopping Cart</h1>
-
 <div class="shopping-cart" id="cartItems">
-
     <div class="column-labels">
         <label class="product-image">Image</label>
         <label class="product-details">Product</label>
@@ -169,7 +166,6 @@
         <label class="product-removal">Remove</label>
         <label class="product-line-price">Total</label>
     </div>
-
 </div>
 
 <div class="totals">
@@ -191,7 +187,7 @@
     </div>
 </div>
 
-<a href="checkout.jsp" class="checkout">Checkout</a>
+<a href="#" class="checkout">Checkout</a>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -210,10 +206,10 @@
                 cartItemsHtml += '</div>';
                 cartItemsHtml += '<div class="product-price">Kshs.' + item.price + '/kg</div>';
                 cartItemsHtml += '<div class="product-quantity">';
-                cartItemsHtml += '<input type="number" value="1" min="1">';
+                cartItemsHtml += '<input type="number" value="1" min="1" onchange="updateQuantity(this)">';
                 cartItemsHtml += '</div>';
                 cartItemsHtml += '<div class="product-removal">';
-                cartItemsHtml += '<button class="remove-product">Remove</button>';
+                cartItemsHtml += '<button class="remove-product" onclick="removeItem(this)">Remove</button>';
                 cartItemsHtml += '</div>';
                 cartItemsHtml += '<div class="product-line-price">' + item.price + '</div>';
                 cartItemsHtml += '</div>';
@@ -254,7 +250,7 @@
 
         function updateQuantity(quantityInput) {
             var productRow = $(quantityInput).parent().parent();
-            var price = parseFloat(productRow.children('.product-price').text());
+            var price = parseFloat(productRow.children('.product-price').text().replace('Kshs', '').replace('/kg', ''));
             var quantity = $(quantityInput).val();
             var linePrice = price * quantity;
             productRow.children('.product-line-price').each(function() {
@@ -273,7 +269,16 @@
                 recalculateCart();
             });
         }
-    
+
+        // Simulate adding a product when someone accesses produce.jsp
+        var newProduct = {
+            item: "New Product",
+            price: 10.00 // Adjust the price accordingly
+        };
+        var cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+        cart.push(newProduct);
+        sessionStorage.setItem('cart', JSON.stringify(cart));
+        recalculateCart();
     });
 </script>
 

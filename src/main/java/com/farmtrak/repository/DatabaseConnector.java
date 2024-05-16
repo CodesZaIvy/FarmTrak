@@ -12,18 +12,9 @@ import org.apache.commons.logging.impl.Log4jApiLogFactory;
 public class DatabaseConnector {
 
     private static final Log logger = Log4jApiLogFactory.getLog(DatabaseConnector.class);
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/mysql";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "SUN123,mysql";
-
-    static {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            logger.error("MySQL JDBC Driver not found", e);
-            throw new RuntimeException("MySQL JDBC Driver not found", e);
-        }
-    }
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/FarmTrakDB";
+    private static final String DB_USER = "farmtrakuser";
+    private static final String DB_PASSWORD = "StrongPassword123";
 
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASSWORD);
@@ -62,7 +53,7 @@ public class DatabaseConnector {
     // Example method to retrieve user information from the database
     public static void getUserInfo(String username) {
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE username=root")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE username=?")) {
 
             preparedStatement.setString(1, username);
 
