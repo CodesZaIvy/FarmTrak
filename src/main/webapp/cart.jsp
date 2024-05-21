@@ -6,12 +6,11 @@
     <title>Shopping Cart</title>
     <style>
         /* Global "table" column settings */
-        .product-image { float: left; width: 20%; border: 1px solid #ddd; padding: 5px; margin-right: 10px; }
-        .product-details { float: left; width: 37%; }
-        .product-price { float: left; width: 12%; }
-        .product-quantity { float: left; width: 10%; }
-        .product-removal { float: left; width: 9%; }
-        .product-line-price { float: left; width: 12%; text-align: right; }
+        .product-details { float: left; width: 50%; }
+        .product-price { float: left; width: 15%; }
+        .product-quantity { float: left; width: 15%; }
+        .product-removal { float: left; width: 10%; }
+        .product-line-price { float: left; width: 10%; text-align: right; }
         
         /* This is used as the traditional .clearfix class */
         .group:before,
@@ -82,15 +81,6 @@
             padding: 10px; /* Improved spacing */
         }
         
-        .product-image {
-            text-align: center;
-        }
-        
-        .product-image img {
-            max-width: 100px; /* Maximum image width */
-            height: auto; /* Maintain aspect ratio */
-        }
-        
         .product-title {
             font-weight: bold;
             margin-bottom: 5px;
@@ -157,130 +147,190 @@
 </head>
 <body>
 
-<div class="shopping-cart" id="cartItems">
-    <div class="column-labels">
-        <label class="product-image">Image</label>
-        <label class="product-details">Product</label>
-        <label class="product-price">Price</label>
-        <label class="product-quantity">Quantity</label>
-        <label class="product-removal">Remove</label>
-        <label class="product-line-price">Total</label>
+    <div class="grid-container">
+  
+        <div class="card">
+          <div class="card-content">
+            <h2>Onions</h2>
+            <p>Quantity: 100 kg</p>
+            <p class="price">Price: Ksh.250/kg</p>
+            <p>Certification: Organic</p>
+            <button onclick="addToCart('Onions', 250)">Add to Cart</button>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-content">
+            <h2>Cabbages</h2>
+            <p>Quantity: 50 kg</p>
+            <p class="price">Price: Ksh.300/kg</p>
+            <p>Certification: Non-GMO</p>
+            <button onclick="addToCart('Cabbages', 300)">Add to Cart</button>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-content">
+            <h2>Tomatoes</h2>
+            <p>Quantity: 120 kg</p>
+            <p class="price">Price: Ksh.250/kg</p>
+            <p>Certification: Non-GMO</p>
+            <button onclick="addToCart('Tomatoes', 250)">Add to Cart</button>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-content">
+            <h2>Sweet Potatoes</h2>
+            <p>Quantity: 200 kg</p>
+            <p class="price">Price: Ksh.270/kg</p>
+            <p>Certification: Conventional</p>
+            <button onclick="addToCart('Sweet Potatoes', 270)">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="shopping-cart" id="cartItems">
+            <div class="column-labels">
+                <label class="product-details">Product</label>
+                <label class="product-price">Price</label>
+                <label class="product-quantity">Quantity</label>
+                <label class="product-removal">Remove</label>
+                <label class="product-line-price">Total</label>
+            </div>
+        </div>
+
+        <div class="totals">
+            <div class="totals-item">
+                <label>Subtotal</label>
+                <div class="totals-value" id="cart-subtotal">0.00</div>
+            </div>
+            <div class="totals-item">
+                <label>Tax (5%)</label>
+                <div class="totals-value" id="cart-tax">0.00</div>
+            </div>
+            <div class="totals-item">
+                <label>Shipping</label>
+                <div class="totals-value" id="cart-shipping">0.00</div>
+            </div>
+            <div class="totals-item totals-item-total">
+                <label>Grand Total</label>
+                <div class="totals-value" id="cart-total">0.00</div>
+            </div>
+        </div>
+
+        <a href="#" class="checkout">Checkout</a>
+
     </div>
-</div>
 
-<div class="totals">
-    <div class="totals-item">
-        <label>Subtotal</label>
-        <div class="totals-value" id="cart-subtotal">0.00</div>
-    </div>
-    <div class="totals-item">
-        <label>Tax (5%)</label>
-        <div class="totals-value" id="cart-tax">0.00</div>
-    </div>
-    <div class="totals-item">
-        <label>Shipping</label>
-        <div class="totals-value" id="cart-shipping">0.00</div>
-    </div>
-    <div class="totals-item totals-item-total">
-        <label>Grand Total</label>
-        <div class="totals-value" id="cart-total">0.00</div>
-    </div>
-</div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var taxRate = 0.05;
+            var shippingRate = 15.00;
+            var fadeTime = 300;
 
-<a href="#" class="checkout">Checkout</a>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        var taxRate = 0.05;
-        var shippingRate = 15.00;
-        var fadeTime = 300;
-
-        // Function to generate HTML for cart items
-        function generateCartItems(cart) {
-            var cartItemsHtml = '';
-            cart.forEach(function(item) {
-                cartItemsHtml += '<div class="product">';
-                cartItemsHtml += '<div class="product-details">';
-                cartItemsHtml += '<div class="product-title">' + item.item + '</div>';
-                cartItemsHtml += '</div>';
-                cartItemsHtml += '<div class="product-price">Kshs.' + item.price + '/kg</div>';
-                cartItemsHtml += '<div class="product-quantity">';
-                cartItemsHtml += '<input type="number" value="1" min="1" onchange="updateQuantity(this)">';
-                cartItemsHtml += '</div>';
-                cartItemsHtml += '<div class="product-removal">';
-                cartItemsHtml += '<button class="remove-product" onclick="removeItem(this)">Remove</button>';
-                cartItemsHtml += '</div>';
-                cartItemsHtml += '<div class="product-line-price">' + item.price + '</div>';
-                cartItemsHtml += '</div>';
-            });
-            return cartItemsHtml;
-        }
-
-        // Function to recalculate cart totals
-        function recalculateCart() {
-            // Retrieve cart items from session storage
-            var cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-            // Generate HTML for cart items
-            var cartItemsHtml = generateCartItems(cart);
-            // Update cart items HTML
-            $('#cartItems').html(cartItemsHtml);
-            // Your existing recalculateCart logic
-            
-            var subtotal = 0;
-            $('.product').each(function() {
-                subtotal += parseFloat($(this).children('.product-line-price').text());
-            });
-            var tax = subtotal * taxRate;
-            var shipping = (subtotal > 0 ? shippingRate : 0);
-            var total = subtotal + tax + shipping;
-            $('.totals-value').fadeOut(fadeTime, function() {
-                $('#cart-subtotal').html(subtotal.toFixed(2));
-                $('#cart-tax').html(tax.toFixed(2));
-                $('#cart-shipping').html(shipping.toFixed(2));
-                $('#cart-total').html(total.toFixed(2));
-                if (total == 0) {
-                    $('.checkout').fadeOut(fadeTime);
-                } else {
-                    $('.checkout').fadeIn(fadeTime);
-                }
-                $('.totals-value').fadeIn(fadeTime);
-            });
-        }
-
-        function updateQuantity(quantityInput) {
-            var productRow = $(quantityInput).parent().parent();
-            var price = parseFloat(productRow.children('.product-price').text().replace('Kshs', '').replace('/kg', ''));
-            var quantity = $(quantityInput).val();
-            var linePrice = price * quantity;
-            productRow.children('.product-line-price').each(function() {
-                $(this).fadeOut(fadeTime, function() {
-                    $(this).text(linePrice.toFixed(2));
-                    recalculateCart();
-                    $(this).fadeIn(fadeTime);
+            // Function to generate HTML for cart items
+            function generateCartItems(cart) {
+                var cartItemsHtml = '';
+                cart.forEach(function(item) {
+                    cartItemsHtml += '<div class="product">';
+                    cartItemsHtml += '<div class="product-details">';
+                    cartItemsHtml += '<div class="product-title">' + item.item + '</div>';
+                    cartItemsHtml += '</div>';
+                    cartItemsHtml += '<div class="product-price">Kshs.' + item.price.toFixed(2) + '/kg</div>';
+                    cartItemsHtml += '<div class="product-quantity">';
+                    cartItemsHtml += '<input type="number" value="' + item.quantity + '" min="1" onchange="updateQuantity(this)">';
+                    cartItemsHtml += '</div>';
+                    cartItemsHtml += '<div class="product-removal">';
+                    cartItemsHtml += '<button class="remove-product" onclick="removeItem(this)">Remove</button>';
+                    cartItemsHtml += '</div>';
+                    cartItemsHtml += '<div class="product-line-price">' + (item.price * item.quantity).toFixed(2) + '</div>';
+                    cartItemsHtml += '</div>';
                 });
-            });
-        }
+                return cartItemsHtml;
+            }
 
-        function removeItem(removeButton) {
-            var productRow = $(removeButton).parent().parent();
-            productRow.slideUp(fadeTime, function() {
-                productRow.remove();
+            // Function to recalculate cart totals
+            function recalculateCart() {
+                // Retrieve cart items from session storage
+                var cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                // Generate HTML for cart items
+                var cartItemsHtml = generateCartItems(cart);
+                // Update cart items HTML
+                $('#cartItems').html(cartItemsHtml);
+                
+                var subtotal = 0;
+                $('.product').each(function() {
+                    var linePrice = parseFloat($(this).children('.product-line-price').text().replace('Kshs', ''));
+                    if (!isNaN(linePrice)) {
+                        subtotal += linePrice;
+                    }
+                });
+                var tax = subtotal * taxRate;
+                var shipping = (subtotal > 0 ? shippingRate : 0);
+                var total = subtotal + tax + shipping;
+                $('.totals-value').fadeOut(fadeTime, function() {
+                    $('#cart-subtotal').html(subtotal.toFixed(2));
+                    $('#cart-tax').html(tax.toFixed(2));
+                    $('#cart-shipping').html(shipping.toFixed(2));
+                    $('#cart-total').html(total.toFixed(2));
+                    if (total == 0) {
+                        $('.checkout').fadeOut(fadeTime);
+                    } else {
+                        $('.checkout').fadeIn(fadeTime);
+                    }
+                    $('.totals-value').fadeIn(fadeTime);
+                });
+            }
+
+            function updateQuantity(quantityInput) {
+                var productRow = $(quantityInput).parent().parent();
+                var price = parseFloat(productRow.children('.product-price').text().replace('Kshs', '').replace('/kg', ''));
+                var quantity = $(quantityInput).val();
+                var linePrice = price * quantity;
+                productRow.children('.product-line-price').each(function() {
+                    $(this).fadeOut(fadeTime, function() {
+                        $(this).text(linePrice.toFixed(2));
+                        recalculateCart(); // Recalculate cart after updating quantity
+                        $(this).fadeIn(fadeTime);
+                    });
+                });
+                // Update quantity in sessionStorage
+                var index = productRow.index();
+                var cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                cart[index].quantity = quantity;
+                sessionStorage.setItem('cart', JSON.stringify(cart));
+            }
+
+            function removeItem(removeButton) {
+                var productRow = $(removeButton).parent().parent();
+                productRow.slideUp(fadeTime, function() {
+                    var index = productRow.index();
+                    var cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                    cart.splice(index, 1); // Remove item from cart array
+                    sessionStorage.setItem('cart', JSON.stringify(cart));
+                    productRow.remove();
+                    recalculateCart();
+                });
+            }
+
+            // Function to add items to cart
+            window.addToCart = function(item, price) {
+                var newProduct = {
+                    item: item,
+                    price: price,
+                    quantity: 1
+                };
+                var cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                cart.push(newProduct);
+                sessionStorage.setItem('cart', JSON.stringify(cart));
                 recalculateCart();
-            });
-        }
+            };
 
-        // Simulate adding a product when someone accesses produce.jsp
-        var newProduct = {
-            item: "New Product",
-            price: 10.00 // Adjust the price accordingly
-        };
-        var cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-        cart.push(newProduct);
-        sessionStorage.setItem('cart', JSON.stringify(cart));
-        recalculateCart();
-    });
-</script>
+            // Initial cart calculation
+            recalculateCart();
+        });
+    </script>
 
 </body>
 </html>
