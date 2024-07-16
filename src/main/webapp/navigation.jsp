@@ -53,6 +53,54 @@
             margin-top: 0;
         }
 
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 columns */
+            grid-gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .card img {
+            max-width: 100%;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .card-content {
+            padding: 10px;
+        }
+
+        .card-content h2 {
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+
+        .price {
+            font-size: 1.2em;
+            color: #1a5031;
+        }
+
+        .card button {
+            background-color: #1a5031;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .card button:hover {
+            background-color: #185a3b;
+        }
+
         @media screen and (max-width: 600px) {
             .navbar {
                 display: none; /* Hide navbar on small screens */
@@ -64,6 +112,10 @@
 
             .navbar a {
                 display: none; /* Hide navbar links */
+            }
+
+            .grid-container {
+                grid-template-columns: 1fr; /* 1 column on small screens */
             }
         }
 
@@ -170,6 +222,61 @@
                 <button onclick="addToCart('Sweet Potatoes', 270)">Add to Cart</button>
             </div>
         </div>
+
+        <div class="card">
+            <img src="images/produce1.jpg" alt="Onions">
+            <div class="card-content">
+                <h2>Onions</h2>
+                <p>Quantity: 100 kg</p>
+                <p class="price">Price: Ksh.250/kg</p>
+                <p>Certification: Organic</p>
+                <button onclick="addToCart('Onions', 250)">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="images/produce2.jpg" alt="Cabbages">
+            <div class="card-content">
+                <h2>Cabbages</h2>
+                <p>Quantity: 50 kg</p>
+                <p class="price">Price: Ksh.300/kg</p>
+                <p>Certification: Non-GMO</p>
+                <button onclick="addToCart('Cabbages', 300)">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="images/Tomatoes.jpg" alt="Tomatoes">
+            <div class="card-content">
+                <h2>Tomatoes</h2>
+                <p>Quantity: 120 kg</p>
+                <p class="price">Price: Ksh.250/kg</p>
+                <p>Certification: Non-GMO</p>
+                <button onclick="addToCart('Tomatoes', 250)">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="images/Sweetpotatoes.jpg" alt="Sweet Potatoes">
+            <div class="card-content">
+                <h2>Sweet Potatoes</h2>
+                <p>Quantity: 200 kg</p>
+                <p class="price">Price: Ksh.270/kg</p>
+                <p>Certification: Conventional</p>
+                <button onclick="addToCart('Sweet Potatoes', 270)">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="images/produce1.jpg" alt="Onions">
+            <div class="card-content">
+                <h2>Onions</h2>
+                <p>Quantity: 100 kg</p>
+                <p class="price">Price: Ksh.250/kg</p>
+                <p>Certification: Organic</p>
+                <button onclick="addToCart('Onions', 250)">Add to Cart</button>
+            </div>
+        </div>
     </div>
 
     <div class="cart-container">
@@ -232,6 +339,7 @@
         cart.push({ item, price });
         sessionStorage.setItem('cart', JSON.stringify(cart));
         updateCart();
+        window.location.href = 'cart.jsp'; // Redirect to cart.jsp
     }
 
     function updateCart() {

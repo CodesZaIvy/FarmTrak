@@ -59,6 +59,52 @@
             <input type="text" name="orderName" placeholder="Enter order name" required>
             <button type="submit">Add to Order</button>
         </form>
+            <script>
+                function toggleNav() {
+                    const navbar = document.getElementById("myNav");
+                    const isOpen = navbar.style.display === "flex";
+                    navbar.style.display = isOpen ? "none" : "flex";
+                }
+            
+                function closeNav() {
+                    document.getElementById("myNav").style.display = "none";
+                }
+            
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.querySelector('.content').addEventListener('click', function(e) {
+                        if (!document.getElementById('myNav').contains(e.target) && e.target !== document.querySelector('.menu-button')) {
+                            closeNav();
+                        }
+                    });
+                });
+            
+                const cartItemsDiv = document.getElementById('cartItems');
+                let cart = [];
+            
+                function addToCart(item, price) {
+                    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                    cart.push({ item, price });
+                    sessionStorage.setItem('cart', JSON.stringify(cart));
+                    window.location.href = 'cart.jsp';  // Redirect to cart.jsp after adding the item
+                }
+            
+                function updateCart() {
+                    cartItemsDiv.innerHTML = '';
+                    cart.forEach((item, index) => {
+                        const cartItemDiv = document.createElement('div');
+                        cartItemDiv.classList.add('cart-item');
+                        cartItemDiv.innerHTML = `${item.item} - Ksh.${item.price}/kg <button onclick="removeFromCart(${index})">Remove</button>`;
+                        cartItemsDiv.appendChild(cartItemDiv);
+                    });
+                }
+            
+                function removeFromCart(index) {
+                    cart.splice(index, 1);
+                    updateCart();
+                }
+            </script>
+            
+
     </div>
 </body>
 </html>
