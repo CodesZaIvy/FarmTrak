@@ -1,10 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.example.CartManager" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.CartManager.CartItem" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart</title>
+    <title>Cart</title>
     <style>
         body {
             padding: 30px 20px;
@@ -20,7 +23,7 @@
             margin-bottom: 30px;
         }
 
-        .form-container {
+        .cart-container {
             width: 100%;
             max-width: 600px;
             margin: 0 auto;
@@ -31,80 +34,47 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .form-container input[type="text"], .form-container button[type="submit"] {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border: 1px solid #cccccc;
-            border-radius: 5px;
-            box-sizing: border-box;
+        .cart-item {
+            padding: 10px;
+            border-bottom: 1px solid #cccccc;
         }
 
-        .form-container button[type="submit"] {
-            background-color: #388e3c;
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item button {
+            background-color: #d32f2f;
             color: #ffffff;
-            font-size: 16px;
+            border: none;
+            padding: 5px 10px;
             cursor: pointer;
         }
 
-        .form-container button[type="submit"]:hover {
-            background-color: #2e7d32;
+        .cart-item button:hover {
+            background-color: #c62828;
         }
     </style>
 </head>
 <body>
-    <h1>Cart</h1>
-    <div class="form-container">
-        <form action="${pageContext.request.contextPath}/OrderServlet" method="post">
-            <input type="text" name="orderName" placeholder="Enter order name" required>
-            <button type="submit">Add to Order</button>
-        </form>
-            <script>
-                function toggleNav() {
-                    const navbar = document.getElementById("myNav");
-                    const isOpen = navbar.style.display === "flex";
-                    navbar.style.display = isOpen ? "none" : "flex";
-                }
-            
-                function closeNav() {
-                    document.getElementById("myNav").style.display = "none";
-                }
-            
-                document.addEventListener('DOMContentLoaded', function() {
-                    document.querySelector('.content').addEventListener('click', function(e) {
-                        if (!document.getElementById('myNav').contains(e.target) && e.target !== document.querySelector('.menu-button')) {
-                            closeNav();
-                        }
-                    });
-                });
-            
-                const cartItemsDiv = document.getElementById('cartItems');
-                let cart = [];
-            
-                function addToCart(item, price) {
-                    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-                    cart.push({ item, price });
-                    sessionStorage.setItem('cart', JSON.stringify(cart));
-                    window.location.href = 'cart.jsp';  // Redirect to cart.jsp after adding the item
-                }
-            
-                function updateCart() {
-                    cartItemsDiv.innerHTML = '';
-                    cart.forEach((item, index) => {
-                        const cartItemDiv = document.createElement('div');
-                        cartItemDiv.classList.add('cart-item');
-                        cartItemDiv.innerHTML = `${item.item} - Ksh.${item.price}/kg <button onclick="removeFromCart(${index})">Remove</button>`;
-                        cartItemsDiv.appendChild(cartItemDiv);
-                    });
-                }
-            
-                function removeFromCart(index) {
-                    cart.splice(index, 1);
-                    updateCart();
-                }
-            </script>
-            
-
+    <h1>Your Cart</h1>
+    <div class="cart-container">
+        <%
+            HttpSession session = request.getSession();
+            List<CartItem> cart = CartManager.getCart(session);
+            for (int i = 0; i < cart.size(); i++) {
+                CartItem item = cart.get(i);
+        %>
+            <div class="cart-item">
+                <%= item.getItemName() %> - Ksh.<%= item.getPrice() %>
+                <form action="${pageContext.request.contextPath}/RemoveItemServlet" method="post" style="display: inline;">
+                    <input type="hidden" name="index" value="<%= i %>">
+                    <button type="submit">Remove</button>
+                </form>
+            </div>
+        <%
+            }
+        %>
     </div>
 </body>
 </html>

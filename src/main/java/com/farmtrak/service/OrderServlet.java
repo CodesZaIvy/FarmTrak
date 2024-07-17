@@ -11,13 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.farmtrak.model.CartManager;
+
 @WebServlet("/OrderServlet")
 public class OrderServlet extends HttpServlet {
+
+    private static final Object price = null;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String orderName = request.getParameter("orderName");
+        CartManager.addItemToCart(session, orderName, price);
+
+        response.sendRedirect("cart.jsp");
 
         List<String> orders = null;
         Object ordersObject = session.getAttribute("orders");
@@ -48,3 +55,7 @@ public class OrderServlet extends HttpServlet {
         response.sendRedirect("orderManagement.jsp");
     }
 }
+
+
+
+    
