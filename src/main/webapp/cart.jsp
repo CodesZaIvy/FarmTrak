@@ -1,7 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.example.CartManager" %>
+
+<%@ page import="javax.servlet.http.HttpSession" %>
+
+<%@ page import="com.farmtrak.model.CartManager" %>
+<%@ page import="com.farmtrak.model.CartManager.CartItem" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.example.CartManager.CartItem" %>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,20 +59,29 @@
         .cart-item button:hover {
             background-color: #c62828;
         }
+
+        .total-price {
+            text-align: right;
+            margin-top: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <h1>Your Cart</h1>
     <div class="cart-container">
+
+        
         <%
-            HttpSession session = request.getSession();
             List<CartItem> cart = CartManager.getCart(session);
+            double totalPrice = 0;
             for (int i = 0; i < cart.size(); i++) {
                 CartItem item = cart.get(i);
+                totalPrice += item.getPriceAsDouble();
         %>
             <div class="cart-item">
                 <%= item.getItemName() %> - Ksh.<%= item.getPrice() %>
-                <form action="${pageContext.request.contextPath}/RemoveItemServlet" method="post" style="display: inline;">
+                <form action="<%= request.getContextPath() %>/RemoveItemServlet" method="post" style="display: inline;">
                     <input type="hidden" name="index" value="<%= i %>">
                     <button type="submit">Remove</button>
                 </form>
@@ -75,6 +89,9 @@
         <%
             }
         %>
+        <div class="total-price">
+            Total: Ksh.<%= String.format("%.2f", totalPrice) %>
+        </div>
     </div>
 </body>
 </html>
