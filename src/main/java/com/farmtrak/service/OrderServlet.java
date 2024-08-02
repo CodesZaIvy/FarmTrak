@@ -18,6 +18,7 @@ public class OrderServlet extends HttpServlet {
 
     private static final Object price = null;
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();

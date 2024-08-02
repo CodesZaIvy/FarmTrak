@@ -1,11 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <%@ page import="javax.servlet.http.HttpSession" %>
-
 <%@ page import="com.farmtrak.model.CartManager" %>
 <%@ page import="com.farmtrak.model.CartManager.CartItem" %>
 <%@ page import="java.util.List" %>
-
+<%@ page session="true" %>
 
 <!DOCTYPE html>
 <html lang="en">
